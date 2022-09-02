@@ -11,7 +11,8 @@
     $tmp = new Env();
     $env = $tmp->getEnv();
     $spreadsheet = new SpreadSheet($env['url']);
-    $result = str_replace("?usp=sharing","",$spreadsheet->getURL($id));
+    print($spreadsheet->getURL($id)."<br>");
+    $result = $spreadsheet->expand_url($spreadsheet->getURL($id));
     print($result);
   }catch(Exception $e){
       echo $e->getMessage();

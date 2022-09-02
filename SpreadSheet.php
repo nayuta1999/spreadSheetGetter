@@ -46,4 +46,25 @@
       curl_close($ch);
       return $str;
     }
+
+    function expand_url( $url, $redirs = 0 ) {
+      if ( $redirs == 20 ) {
+        throw new Exception('TOO MANY REDIRECTS!!');
+      }
+     
+      $ch = curl_init( $url );
+      curl_setopt_array( $ch, [
+        CURLOPT_HEADER => 1,
+        CURLOPT_NOBODY => 1,
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_SSL_VERIFYPEER => 0
+      ] );
+      $resp = curl_exec( $ch );
+     
+      if ( preg_match( '/Location: (.*)/i', $resp, $matches ) ) {
+        return $this->expand_url( $matches[1], ++$redirs );
+      }
+     
+      return trim( $url );
+    }
   }
