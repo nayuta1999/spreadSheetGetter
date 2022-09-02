@@ -11,8 +11,11 @@
     $tmp = new Env();
     $env = $tmp->getEnv();
     $spreadsheet = new SpreadSheet($env['url']);
-    print($spreadsheet->getURL($id)."<br>");
+    //print($spreadsheet->getURL($id)."<br>");
+    //var_dump($spreadsheet->GetURLContents($spreadsheet->getURL($id)));exit();
     $result = $spreadsheet->expand_url($spreadsheet->getURL($id));
+    $result = $spreadsheet->expand_url($result);
+    
     print($result);
   }catch(Exception $e){
       echo $e->getMessage();
